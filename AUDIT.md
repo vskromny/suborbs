@@ -87,11 +87,18 @@ App Store review and, in the EU, reads as a misleading commercial practice.
 
 ## D. Still open — your call
 
-1. **The CTA goes nowhere.** Both "Get SubOrbs" buttons are `href="#"`. This is the single biggest
-   hole on the page: every conversion path is a dead end. It needs a TestFlight link, an App Store
-   link, or at minimum an email-capture form.
-2. **"iOS 17+" is unverified.** It is asserted in the hero badge and the CTA. I could not check it
-   against the Xcode project from this repo — confirm the real deployment target.
+1. ~~**The CTA goes nowhere.**~~ **Resolved 19 Aug 2026.** All three CTAs (nav, hero, closing
+   card) now point at `https://apps.apple.com/app/id6790872622`. The storefront-neutral `/app/id…`
+   form is used rather than the `/us/app/…` link, so visitors outside the US land on their own
+   storefront instead of being bounced. The closing card uses Apple's official
+   *Download on the App Store* badge, fetched from
+   `developer.apple.com/assets/elements/badges/` and served locally as
+   `assets/app-store-badge.svg`.
+2. **"iOS 17+" and the pricing line are still unverified.** Both are asserted in the hero badge and
+   the closing CTA ("Free to use, with an optional SubOrbs Pro subscription"). `apps.apple.com` and
+   `itunes.apple.com` are both blocked by this environment's network egress proxy, so I could not
+   read your own listing to confirm the minimum iOS version, the price, or the IAP names. Check them
+   against App Store Connect and correct the page if they drift.
 3. **Your personal mobile number was in the footer** (`+41 78 308 77 07`). I removed it: a personal
    number on a public page is a spam magnet and is not required by anything. If you need a phone
    contact for App Store review, give it to Apple in App Store Connect, not to the open web. The
@@ -135,4 +142,5 @@ assets/favicon.svg              purple-orb mark
 assets/apple-touch-icon.png     180×180
 assets/og-image.png             1200×630 social preview
 assets/screenshots/*.webp       4 screenshots × 2 widths (360w / 720w)
+assets/app-store-badge.svg      Apple's official "Download on the App Store" badge
 ```

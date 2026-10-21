@@ -61,9 +61,9 @@
 
   <p class="eyebrow">Your subscriptions, your device</p>
   <h1>Privacy Policy</h1>
-  <p class="eff">Effective date: 22 July 2026</p>
+  <p class="eff">Effective date: 21 October 2026</p>
 
-  <p class="intro">SubOrbs is built to be private by default. There is no SubOrbs account, and there is no SubOrbs server that stores your data — your subscriptions live on your iPhone. This policy explains exactly what the app handles, and the one case where information leaves your device.</p>
+  <p class="intro">SubOrbs is built to be private by default. There is no SubOrbs account, and there is no SubOrbs server that stores your subscriptions or photos — your subscriptions live on your iPhone. This policy explains exactly what the app handles, and the one case where information leaves your device.</p>
 
   <h2><span class="n">1</span>Information the app handles</h2>
   <p>SubOrbs stores the following <strong>only on your device</strong>, using Apple's on-device storage:</p>
@@ -72,15 +72,16 @@
     <li><strong>Profile details</strong> you optionally add — a display name, an optional birthday, a monthly budget, and account/profile names for organising subscriptions.</li>
     <li><strong>Your Pro subscription status</strong> — whether you have an active SubOrbs Pro subscription, as reported by Apple.</li>
   </ul>
-  <p>SubOrbs does <strong>not</strong> collect your name, email address, phone number, precise location, contacts, advertising identifiers, or any analytics or usage-tracking data. The app has no login and no user account.</p>
+  <p>SubOrbs does <strong>not</strong> collect your name, email address, phone number, precise location, contacts, advertising identifiers, or any analytics or usage-tracking data (other than the per-device scan counter described in §2). The app has no login and no user account.</p>
 
   <h2 id="snap"><span class="n">2</span>Snap &amp; Read (the one time data leaves your device)</h2>
   <p>Snap &amp; Read is an optional feature. When — and only when — you choose to scan a bill:</p>
   <ul>
-    <li>The photo you capture or select is <strong>sent over an encrypted (HTTPS) connection</strong> to our processing backend (hosted on Vercel), which forwards it to <strong>OpenAI's API</strong> to read the bill's details (such as the service name, amount, and billing period).</li>
+    <li>The photo you capture or select is <strong>sent over an encrypted (HTTPS) connection</strong> to our processing backend (hosted on <strong>Cloudflare Workers</strong>, with Vercel as a fallback), which forwards it to <strong>OpenAI's API</strong> to read the bill's details (such as the service name, amount, and billing period).</li>
     <li>Before sending, the image is downscaled and its embedded metadata (including any location/EXIF data) is removed.</li>
+    <li>Your request includes a <strong>per-device identifier</strong> (Apple's identifier for vendor) that our backend uses only as the name of a daily scan counter (at most 60 scans per day); older days are deleted; it is not logged, not stored with your photo, and not sent to OpenAI.</li>
     <li>SubOrbs and its backend do <strong>not store, retain, log, or reuse</strong> the image after the request is processed. It is used only to return the extracted text back to your device.</li>
-    <li>OpenAI processes the request to generate the result. Per OpenAI's API data-usage policy, content submitted through the API is not used to train its models.</li>
+    <li>OpenAI processes the request to generate the result. Per OpenAI's API data-usage policy, content submitted through the API is not used to train its models; OpenAI may retain API inputs for up to 30 days for abuse monitoring before deleting them.</li>
   </ul>
   <div class="callout"><p>If you never use Snap &amp; Read, <strong>no images and no subscription data ever leave your device.</strong></p></div>
 
@@ -93,10 +94,12 @@
   <h2><span class="n">5</span>Third-party services</h2>
   <ul>
     <li><strong>OpenAI</strong> — used only to read a bill you choose to scan with Snap &amp; Read (see §2). <a class="inline" href="https://openai.com/policies/privacy-policy/">OpenAI Privacy Policy</a>.</li>
-    <li><strong>Vercel</strong> — hosts the backend function that forwards Snap &amp; Read requests. It does not retain or analyse your data.</li>
+    <li><strong>Cloudflare</strong> — hosts the backend (a Cloudflare Worker) that forwards Snap &amp; Read requests to OpenAI and enforces the per-device rate limit. Neither we nor the Worker store the image; the host may process technical connection data (e.g. your IP address) to operate and secure the service. <a class="inline" href="https://www.cloudflare.com/privacypolicy/">Cloudflare Privacy Policy</a>.</li>
+    <li><strong>Vercel</strong> — hosts the fallback backend function used if the primary one is unavailable; it performs the same forwarding. Neither we nor the function store the image; the host may process technical connection data (e.g. your IP address) to operate and secure the service.</li>
     <li><strong>Apple</strong> — provides the App Store, StoreKit purchases, and local notifications. <a class="inline" href="https://www.apple.com/legal/privacy/">Apple Privacy Policy</a>.</li>
   </ul>
   <p>We do not use advertising networks, analytics SDKs, or trackers of any kind.</p>
+  <p>OpenAI, Cloudflare and Vercel are US companies, and your data may be processed in the United States or other countries. For OpenAI and Cloudflare, these transfers rely on the <strong>standard contractual clauses</strong> (with the Swiss addendum where applicable); Cloudflare additionally states that it is certified under the EU-US and Swiss-US Data Privacy Framework. Vercel Inc. is certified under the EU-U.S. Data Privacy Framework and the Swiss-U.S. DPF. Details are set out in each provider's privacy policy.</p>
 
   <h2><span class="n">6</span>Your controls and rights</h2>
   <p>Because your data lives on your device, you remain in full control:</p>
@@ -106,7 +109,8 @@
     <li><strong>Deleting the app</strong> removes all of its local data from your device.</li>
     <li>Grant or revoke <strong>Camera, Photos, and Notifications</strong> permissions at any time in the iOS Settings app.</li>
   </ul>
-  <p>Since SubOrbs holds no personal data on any server, there is no server-side account to export or delete. If you have a question about your rights under the GDPR, CCPA, or similar laws, contact us using the details below.</p>
+  <p>SubOrbs holds no subscription data or photos on any server; the only item kept outside your device is the daily scan counter described in §2. There is no server-side account to export or delete.</p>
+  <p>Where the GDPR, the Swiss nDSG, the CCPA, or similar laws apply, you have the right to access, correct, delete, and object to the processing of your personal data. For EU and Swiss users, the legal basis is the performance of the feature you request (GDPR Art. 6(1)(b)) and our legitimate interest in preventing abuse of the scan feature (Art. 6(1)(f)). You may also lodge a complaint with your local supervisory authority — in Switzerland, the Federal Data Protection and Information Commissioner (EDÖB); in the EU, your national authority. Contact us using the details below for any request.</p>
 
   <h2><span class="n">7</span>Children's privacy</h2>
   <p>SubOrbs is not directed to children under 13 (or the minimum age of digital consent in your country), and we do not knowingly collect any information from children.</p>
@@ -118,10 +122,11 @@
   <p>We may update this Privacy Policy from time to time. When we do, we will revise the “Effective date” above and post the updated policy at this address. Material changes will also be noted within the app.</p>
 
   <h2><span class="n">10</span>Contact</h2>
-  <p>For any privacy-related question or request, contact us at <a class="inline" href="mailto:v.skromny@gmail.com">v.skromny@gmail.com</a>.</p>
+  <p><strong>Controller:</strong> Vladimir Skromny, private individual, Switzerland — <a class="inline" href="mailto:v.skromny@gmail.com">v.skromny@gmail.com</a>.</p>
+  <p>For any privacy-related question or request, contact us at the email address above.</p>
 
   <footer>
-    <span>© 2026 SubOrbs · Made for iOS. No account. No tracking. No server.</span>
+    <span>© 2026 SubOrbs · Made for iOS. No account. No tracking. Your data stays on your device.</span>
     <span><a href="./">Home</a> &nbsp;·&nbsp; <a href="./terms-page.html">Terms</a></span>
   </footer>
 </div>

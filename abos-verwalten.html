@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Abos verwalten: Überblick & Erinnerungen | SubOrbs</title>
+<meta name="description" content="Abos auf dem iPhone verwalten: alle wiederkehrenden Zahlungen an einem Ort, Verlängerungsdaten im Blick, Erinnerung vor der Abbuchung.">
+<meta name="theme-color" content="#F2EFFB" media="(prefers-color-scheme:light)">
+<meta name="theme-color" content="#0D0B1E" media="(prefers-color-scheme:dark)">
+<link rel="canonical" href="https://vskromny.github.io/suborbs/abos-verwalten.html">
+<link rel="alternate" hreflang="en" href="https://vskromny.github.io/suborbs/subscription-renewal-reminders.html">
+<link rel="alternate" hreflang="de" href="https://vskromny.github.io/suborbs/abos-verwalten.html">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="SubOrbs">
+<meta property="og:title" content="Abos verwalten: Überblick & Erinnerungen | SubOrbs">
+<meta property="og:description" content="Abos auf dem iPhone verwalten: alle wiederkehrenden Zahlungen an einem Ort, Verlängerungsdaten im Blick, Erinnerung vor der Abbuchung.">
+<meta property="og:url" content="https://vskromny.github.io/suborbs/abos-verwalten.html">
+<meta property="og:image" content="https://vskromny.github.io/suborbs/assets/og-image.png">
+<style>
+:root{
+  --canvas:linear-gradient(180deg,#F2EFFB 0%,#EDE9F9 55%,#E9E4F8 100%);
+  --t1:#241D3F; --t2:#5D5682; --t3:#655D83;
+  --link:#5030D4;
+  --glass:rgba(255,255,255,.55); --card:rgba(255,255,255,.7);
+  --edge:rgba(255,255,255,.9); --card-edge:rgba(255,255,255,.95);
+  --soft:0 8px 20px -10px rgba(70,40,180,.25);
+  --card-shadow:0 10px 30px -14px rgba(70,40,180,.25);
+  --ring1:rgba(124,92,255,.28); --ring2:rgba(124,92,255,.20); --ring3:rgba(124,92,255,.13);
+  --planet-glow:0 46px 90px -26px rgba(94,61,236,.6),0 0 90px rgba(124,92,255,.35);
+  --navbg:rgba(242,239,251,.6);
+  --chip:rgba(255,255,255,.75);
+  --band:linear-gradient(135deg,#181233 0%,#241D4F 55%,#1B1440 100%);
+  --hair:rgba(36,29,63,.12);
+}
+@media (prefers-color-scheme:dark){
+  :root{
+    --canvas:linear-gradient(180deg,#0D0B1E 0%,#110E28 55%,#141031 100%);
+    --t1:#F1EEFF; --t2:#B3ACD4; --t3:#A49CC2;
+    --link:#B7A2FF;
+    --glass:rgba(255,255,255,.08); --card:rgba(255,255,255,.07);
+    --edge:rgba(255,255,255,.14); --card-edge:rgba(255,255,255,.14);
+    --soft:0 8px 20px -10px rgba(0,0,0,.5);
+    --card-shadow:0 10px 30px -14px rgba(0,0,0,.5);
+    --ring1:rgba(157,130,255,.30); --ring2:rgba(157,130,255,.20); --ring3:rgba(157,130,255,.12);
+    --planet-glow:0 46px 90px -26px rgba(94,61,236,.7),0 0 120px rgba(124,92,255,.45);
+    --navbg:rgba(13,11,30,.55);
+    --chip:rgba(32,27,64,.8);
+    --hair:rgba(255,255,255,.12);
+  }
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",Helvetica,Arial,sans-serif;background:var(--canvas);background-attachment:fixed;color:var(--t1);-webkit-font-smoothing:antialiased}
+a{color:var(--link);text-decoration:none}
+a:hover{text-decoration:underline}
+:focus-visible{outline:2px solid var(--link);outline-offset:3px;border-radius:8px}
+img{max-width:100%}
+h1,h2{text-wrap:balance}
+p{text-wrap:pretty}
+
+/* buttons */
+.btn{display:inline-block;white-space:nowrap;border-radius:16px;font-weight:700;color:#fff;text-align:center;
+  background:radial-gradient(120% 120% at 20% 0%,#A98FFF 0%,#7C5CFF 55%,#5E3DEC 100%);
+  box-shadow:0 12px 30px -8px rgba(94,61,236,.6),inset 0 1px 0 rgba(255,255,255,.5),inset 0 -2px 4px rgba(40,12,110,.35);
+  padding:15px 26px;font-size:17px;transition:transform .15s ease}
+.btn:hover{color:#fff;text-decoration:none;transform:translateY(-1px)}
+.btn:active{transform:scale(.98)}
+.btn.sm{padding:10px 16px;font-size:14px;border-radius:14px;box-shadow:0 10px 22px -8px rgba(94,61,236,.6),inset 0 1px 0 rgba(255,255,255,.5)}
+
+/* App Store badge: Apple's supplied black artwork, kept on a light plate so it
+   stays legible (and within Apple's guidelines) in the dark theme too. */
+.badge{display:inline-block;padding:15px 20px;border-radius:18px;background:#fff;
+  box-shadow:0 10px 26px -12px rgba(36,29,63,.5),inset 0 1px 0 rgba(255,255,255,.9);
+  transition:transform .15s ease}
+.badge:hover{transform:translateY(-1px);text-decoration:none}
+.badge:active{transform:scale(.98)}
+.badge img{display:block;width:180px;height:auto}
+
+/* layout */
+.wrap{width:100%;max-width:1080px}
+.row{display:flex;flex-wrap:wrap;align-items:center;gap:56px}
+.row.rev{flex-wrap:wrap-reverse}
+.col-text{flex:1 1 340px;min-width:min(280px,100%);display:flex;flex-direction:column;gap:16px}
+.col-shot{flex:1 1 300px;min-width:min(280px,100%);display:flex;justify-content:center}
+.eyebrow{font-size:13px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:var(--link)}
+.h2{margin:0;font-size:clamp(28px,4vw,38px);letter-spacing:-1px;line-height:1.12;font-weight:800}
+.lead{margin:0;font-size:17px;line-height:1.6;color:var(--t2);max-width:48ch}
+.note{margin:0;font-size:14px;line-height:1.55;color:var(--t3);max-width:48ch}
+
+/* device frames */
+.phone{width:272px;max-width:74vw;aspect-ratio:1320/2868;border-radius:44px;background:#12101f;padding:10px;
+  box-shadow:0 30px 60px -20px rgba(36,29,63,.45),inset 0 1px 1px rgba(255,255,255,.25)}
+.phone.sm{width:238px;border-radius:40px;padding:9px;box-shadow:0 26px 50px -18px rgba(36,29,63,.45),inset 0 1px 1px rgba(255,255,255,.25)}
+.phone > .screen{position:relative;width:100%;height:100%;border-radius:35px;overflow:hidden;background:var(--canvas);display:flex;flex-direction:column}
+.phone.sm > .screen{border-radius:32px}
+.phone img.shot{display:block;width:100%;height:100%;object-fit:cover;border-radius:35px}
+.phone.sm img.shot{border-radius:32px}
+.notch{position:absolute;left:50%;top:9px;transform:translateX(-50%);width:78px;height:22px;border-radius:12px;background:#000;z-index:3}
+
+/* hero orbit: static angle for placement, animation for the spin.
+   Placement survives prefers-reduced-motion, when the animations are switched off. */
+.orbit{position:absolute;border-radius:50%;transform:rotate(var(--a))}
+.spin{position:absolute;inset:0;animation:orbit var(--dur) linear infinite;animation-delay:var(--delay,0s)}
+.sat{position:absolute;left:50%;top:0;transform:translate(-50%,-50%)}
+.unspin{animation:orbitBack var(--dur) linear infinite;animation-delay:var(--delay,0s)}
+.sat-body{display:flex;flex-direction:column;align-items:center;gap:5px;transform:rotate(calc(-1 * var(--a)))}
+.moon{border-radius:50%;width:var(--s);height:var(--s)}
+.tag{padding:3px 8px;border-radius:8px;background:var(--chip);backdrop-filter:blur(12px);box-shadow:inset 0 1px 0 var(--edge);font-size:11px;font-weight:700;color:var(--t1);font-variant-numeric:tabular-nums;white-space:nowrap}
+@keyframes orbit{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+@keyframes orbitBack{from{transform:rotate(0deg)}to{transform:rotate(-360deg)}}
+@keyframes floaty{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+@media (max-width:380px){
+  nav a[href="#features"],nav a[href="#privacy"]{display:none}
+}
+@media (max-width:520px){
+  nav a[href="#features"],nav a[href="#privacy"]{padding:9px 8px;font-size:13px}
+  .btn.sm{padding:9px 12px}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none !important;transition:none !important;scroll-behavior:auto}}
+</style>
+</head>
+<body>
+<a href="#top" style="position:absolute;left:-9999px;top:0;padding:10px 14px;background:var(--card);border-radius:0 0 12px 0;z-index:100" onfocus="this.style.left='0'" onblur="this.style.left='-9999px'">Zum Inhalt</a>
+<nav style="position:sticky;top:0;z-index:50;display:flex;justify-content:center;padding:12px 20px;backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);background:var(--navbg);border-bottom:1px solid var(--edge)">
+  <div class="wrap" style="display:flex;align-items:center;justify-content:space-between;gap:16px">
+    <a href="index.html" style="display:flex;align-items:center;gap:10px;font-weight:800;font-size:18px;color:var(--t1)"><span style="width:24px;height:24px;border-radius:50%;background:radial-gradient(circle at 32% 26%,#CABBFF 0%,#9D82FF 36%,#7C5CFF 62%,#4F30D0 100%);display:inline-block"></span>SubOrbs</a>
+    <a href="https://apps.apple.com/app/id6790872622" class="btn sm">SubOrbs laden</a>
+  </div>
+</nav>
+<main id="top" style="display:flex;justify-content:center;padding:56px 24px 40px">
+  <article style="width:100%;max-width:720px">
+    <h1 style="margin:0 0 18px;font-size:clamp(32px,5vw,46px);line-height:1.1;letter-spacing:-1.2px;font-weight:800">Abos verwalten, ohne den Überblick zu verlieren.</h1>
+    <p style="margin:0 0 36px;font-size:19px;line-height:1.6;color:var(--t2)">Streaming, Musik, Fitnessstudio, Software: Viele kleine Beträge laufen still im Hintergrund. SubOrbs sammelt die Abos, die du einträgst, an einem Ort und zeigt dir, was als Nächstes abgebucht wird.</p>
+<section style="margin:0 0 30px"><h2 class="h2" style="font-size:clamp(22px,3vw,28px);margin-bottom:10px">Alles an einem Ort</h2><p style="margin:0 0 12px;font-size:17px;line-height:1.65;color:var(--t2)">Beispiel (frei erfunden, zur Veranschaulichung): Ein Streaming-Abo für 12 Euro im Monat, ein Cloud-Speicher für 3 Euro im Monat und eine Zeitschrift für 90 Euro im Jahr ergeben zusammen 22,50 Euro pro Monat (90 geteilt durch 12 sind 7,50). So viel läuft monatlich im Hintergrund, auch wenn die Abbuchungen zu verschiedenen Zeiten kommen.</p><p style="margin:0 0 12px;font-size:17px;line-height:1.65;color:var(--t2)">Du trägst jedes Abo mit Name, Betrag, Intervall und erstem Abbuchungsdatum ein. SubOrbs zeigt sie als Orbit und als Liste, sortiert nach dem nächsten Verlängerungsdatum.</p><p style="margin:0 0 12px;font-size:17px;line-height:1.65;color:var(--t2)">Monatlich, vierteljährlich, halbjährlich, jährlich: SubOrbs rechnet die Beträge auf einen Monatswert um, damit du Abos mit unterschiedlichem Intervall vergleichen kannst.</p></section>
+<section style="margin:0 0 30px"><h2 class="h2" style="font-size:clamp(22px,3vw,28px);margin-bottom:10px">Die nächste Verlängerung kennen</h2><p style="margin:0 0 12px;font-size:17px;line-height:1.65;color:var(--t2)">Zu jedem Abo siehst du das nächste Verlängerungsdatum. Fällt eine Verlängerung auf das Monatsende, bleibt der Stichtag erhalten (ein Abo vom 31. verlängert sich im Februar am 28. und im März wieder am 31.).</p><p style="margin:0 0 12px;font-size:17px;line-height:1.65;color:var(--t2)">Optional erinnert dich SubOrbs vor der Verlängerung, damit du in Ruhe entscheiden kannst, ob du das Abo behalten möchtest. Den Vorlauf wählst du pro Abo.</p></section>
+<section style="margin:0 0 30px"><h2 class="h2" style="font-size:clamp(22px,3vw,28px);margin-bottom:10px">Deine Abos bleiben auf dem iPhone</h2><p style="margin:0 0 12px;font-size:17px;line-height:1.65;color:var(--t2)">Du brauchst kein Konto. Deine Abos werden auf deinem Gerät gespeichert. Wenn du die optionale Funktion „Rechnung scannen“ nutzt, wird ein Foto verschlüsselt (HTTPS) an unser Backend und von dort an OpenAI gesendet. Details stehen in der Datenschutzerklärung.</p></section>
+<section style="margin:0 0 30px"><h2 class="h2" style="font-size:clamp(22px,3vw,28px);margin-bottom:10px">Kostenlos starten</h2><p style="margin:0 0 12px;font-size:17px;line-height:1.65;color:var(--t2)">SubOrbs ist kostenlos nutzbar, mit einem optionalen Abo (SubOrbs Pro). Die Preise zeigt der App Store in deiner Währung an.</p></section>
+    <section style="margin:0 0 30px"><h2 class="h2" style="font-size:clamp(22px,3vw,28px)">Häufige Fragen</h2><h3 style="margin:18px 0 6px;font-size:18px">Wie viele Abos kann ich kostenlos erfassen?</h3><p style="margin:0;font-size:17px;line-height:1.65;color:var(--t2)">Die kostenlose Version ist begrenzt. Das aktuelle Limit und was SubOrbs Pro freischaltet, siehst du im App Store und in der App.</p><h3 style="margin:18px 0 6px;font-size:18px">Bucht SubOrbs etwas für mich ab oder kündigt es für mich?</h3><p style="margin:0;font-size:17px;line-height:1.65;color:var(--t2)">Nein. SubOrbs erfasst und erinnert. Gekündigt wird weiterhin beim jeweiligen Anbieter oder in den Abo-Einstellungen deines Apple-Kontos.</p></section>
+  </article>
+</main>
+<section style="display:flex;justify-content:center;padding:20px 24px 80px">
+  <div style="width:100%;max-width:720px;border-radius:28px;background:var(--card);box-shadow:inset 0 1px 0 var(--card-edge),var(--card-shadow);padding:44px 28px;display:flex;flex-direction:column;align-items:center;gap:16px;text-align:center">
+    <h2 style="margin:0;font-size:clamp(24px,3.5vw,32px);letter-spacing:-.8px;font-weight:800">Bring deine Abos in den Orbit.</h2>
+    <p style="margin:0;font-size:16px;line-height:1.6;color:var(--t2);max-width:44ch">iPhone, iOS 17 oder neuer. Kostenlos nutzbar, mit optionalem Abo (SubOrbs Pro). Kein Konto nötig.</p>
+    <a class="badge" href="https://apps.apple.com/app/id6790872622" aria-label="SubOrbs App Store"><img src="assets/app-store-badge.svg" width="180" height="60" alt="App Store"></a>
+  </div>
+</section>
+<footer style="display:flex;justify-content:center;padding:0 24px 48px">
+  <div class="wrap" style="border-top:1px solid var(--hair);padding-top:28px;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:16px">
+    <div style="font-size:13.5px;color:var(--t3)">© 2026 SubOrbs · Für iOS gemacht. Kein Konto.</div>
+    <div style="display:flex;flex-wrap:wrap;gap:18px;font-size:13.5px"><a href="index.html">Startseite</a><a href="privacy-page.de.html">Datenschutz</a><a href="terms-page.html">Nutzungsbedingungen</a><a href="impressum.html">Impressum</a></div>
+  </div>
+</footer>
+</body>
+</html>
